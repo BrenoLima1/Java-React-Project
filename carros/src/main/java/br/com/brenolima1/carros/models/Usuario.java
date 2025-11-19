@@ -12,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "usuarios")
@@ -20,14 +22,19 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @NotBlank(message = "O username é obrigatório")
+    @Column(unique = true)
     private String username;
 
-    @Column(unique = true, nullable = false)
+    @Email(message = "Email inválido")
+    @NotBlank(message = "O email é obrigatório")
+    @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
+
+    @NotBlank(message = "A senha é obrigatória")
     private String senha;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -37,13 +44,11 @@ public class Usuario {
 
     public Usuario() {}
 
-    public Usuario(Long id, String username, String email, String senha, Role role, Date dataCadastro) {
-        this.id = id;
+    public Usuario(String username, String email, String senha, Role role) {
         this.username = username;
         this.email = email;
         this.senha = senha;
         this.role = role;
-        this.dataCadastro = dataCadastro;
     }
 
     public Long getId() {
