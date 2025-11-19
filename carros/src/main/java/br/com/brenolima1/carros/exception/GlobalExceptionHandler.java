@@ -16,8 +16,8 @@ import br.com.brenolima1.carros.models.ApiError;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UsuarioNaoEncontradoException.class)
-    public ResponseEntity<ApiError> usuarioNaoEncontrado(UsuarioNaoEncontradoException ex, WebRequest request) {
+    @ExceptionHandler(UsuarioException.class)
+    public ResponseEntity<ApiError> usuarioNaoEncontrado(UsuarioException ex, WebRequest request) {
         ApiError error = new ApiError(
                 HttpStatus.NOT_FOUND.value(),
                 "Not Found",

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.com.brenolima1.carros.exception.UsuarioNaoEncontradoException;
+import br.com.brenolima1.carros.exception.UsuarioException;
 import br.com.brenolima1.carros.models.Usuario;
 import br.com.brenolima1.carros.repository.UsuarioRepository;
 
@@ -25,16 +25,17 @@ public class UsuarioService {
     }
 
     public void excluirUsuario(Long id) {
+        buscarUsuario(id);
         usuarioRepository.deleteById(id);
     }
 
     public Usuario buscarUsuario(Long id) {
-        return usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(id));
+        return usuarioRepository.findById(id).orElseThrow(() -> new UsuarioException("Usuário não encontrado com id: " + id));
     }
 
     public Usuario atualizarUsuario(Usuario usuario) {
         Usuario usuarioExistente = usuarioRepository.findById(usuario.getId())
-            .orElseThrow(() -> new UsuarioNaoEncontradoException(usuario.getId()));
+            .orElseThrow(() -> new UsuarioException("Usuário não  encontrado com id: " + usuario.getId()));
 
         usuarioExistente.setUsername(usuario.getUsername());
         usuarioExistente.setEmail(usuario.getEmail());
