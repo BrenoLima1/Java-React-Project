@@ -1,4 +1,4 @@
-package br.com.brenolima1.carros.dtos.Usuario;
+package br.com.brenolima1.carros.dtos.usuario;
 
 import java.time.Instant;
 

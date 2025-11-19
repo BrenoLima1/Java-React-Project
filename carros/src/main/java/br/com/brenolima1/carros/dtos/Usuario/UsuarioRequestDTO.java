@@ -1,4 +1,4 @@
-package br.com.brenolima1.carros.dtos.Usuario;
+package br.com.brenolima1.carros.dtos.usuario;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

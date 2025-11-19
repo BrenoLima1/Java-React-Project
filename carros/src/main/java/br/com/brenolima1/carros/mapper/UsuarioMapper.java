@@ -1,7 +1,7 @@
 package br.com.brenolima1.carros.mapper;
 
-import br.com.brenolima1.carros.dtos.Usuario.UsuarioRequestDTO;
-import br.com.brenolima1.carros.dtos.Usuario.UsuarioResponseDTO;
+import br.com.brenolima1.carros.dtos.usuario.UsuarioRequestDTO;
+import br.com.brenolima1.carros.dtos.usuario.UsuarioResponseDTO;
 import br.com.brenolima1.carros.exception.RoleException;
 import br.com.brenolima1.carros.models.Role;
 import br.com.brenolima1.carros.models.Usuario;

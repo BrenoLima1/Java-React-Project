@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.brenolima1.carros.dtos.Usuario.UsuarioRequestDTO;
-import br.com.brenolima1.carros.dtos.Usuario.UsuarioResponseDTO;
+import br.com.brenolima1.carros.dtos.usuario.UsuarioRequestDTO;
+import br.com.brenolima1.carros.dtos.usuario.UsuarioResponseDTO;
 import br.com.brenolima1.carros.mapper.UsuarioMapper;
 import br.com.brenolima1.carros.models.Usuario;
 import br.com.brenolima1.carros.services.UsuarioService;
