@@ -29,10 +29,18 @@ public class UsuarioService {
     }
 
     public Usuario buscarUsuario(Long id) {
-        return usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        return usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(id));
     }
 
     public Usuario atualizarUsuario(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+        Usuario usuarioExistente = usuarioRepository.findById(usuario.getId())
+            .orElseThrow(() -> new UsuarioNaoEncontradoException(usuario.getId()));
+
+        usuarioExistente.setUsername(usuario.getUsername());
+        usuarioExistente.setEmail(usuario.getEmail());
+        usuarioExistente.setSenha(usuario.getSenha());
+        usuarioExistente.setRole(usuario.getRole());
+
+        return usuarioRepository.save(usuarioExistente);
     }
 }

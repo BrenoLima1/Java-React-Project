@@ -25,11 +25,19 @@ public class CarroService {
     }
 
     public Carro atualizarCarro(Carro carro) {
-        return carroRepository.save(carro);
+        Carro carroExistente = carroRepository.findById(carro.getId()).orElseThrow(()-> new CarroNaoEncontradoException(carro.getId()));
+        carroExistente.setAno(carro.getAno());
+        carroExistente.setMarca(carro.getMarca());
+        carroExistente.setModelo(carro.getModelo());
+        carroExistente.setNome(carro.getNome());
+        carroExistente.setPreco(carro.getPreco());
+
+
+        return carroRepository.save(carroExistente);
     }
 
     public Carro buscarCarro(Long id) {
-        return carroRepository.findById(id).orElseThrow(()-> new CarroNaoEncontradoException());
+        return carroRepository.findById(id).orElseThrow(()-> new CarroNaoEncontradoException(id));
     }
 
     public List<Carro> listarCarros() {
