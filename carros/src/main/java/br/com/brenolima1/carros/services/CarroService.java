@@ -21,6 +21,7 @@ public class CarroService {
     }
 
     public void deletarCarro(Long id) {
+        buscarCarro(id);
         carroRepository.deleteById(id);
     }
 
