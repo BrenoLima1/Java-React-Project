@@ -26,8 +26,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(CarroNaoEncontradoException.class)
-    public ResponseEntity<ApiError> carroNaoEncontrado(CarroNaoEncontradoException ex, WebRequest request) {
+    @ExceptionHandler(CarroException.class)
+    public ResponseEntity<ApiError> carroNaoEncontrado(CarroException ex, WebRequest request) {
         ApiError error = new ApiError(
                 HttpStatus.NOT_FOUND.value(),
                 "Not Found",

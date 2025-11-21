@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.com.brenolima1.carros.exception.CarroNaoEncontradoException;
+import br.com.brenolima1.carros.exception.CarroException;
 import br.com.brenolima1.carros.models.Carro;
 import br.com.brenolima1.carros.repository.CarroRepository;
 
@@ -25,11 +25,10 @@ public class CarroService {
     }
 
     public Carro atualizarCarro(Carro carro) {
-        Carro carroExistente = carroRepository.findById(carro.getId()).orElseThrow(()-> new CarroNaoEncontradoException(carro.getId()));
+        Carro carroExistente = carroRepository.findById(carro.getId()).orElseThrow(()-> new CarroException("Carro não encontrado"));
         carroExistente.setAno(carro.getAno());
         carroExistente.setMarca(carro.getMarca());
         carroExistente.setModelo(carro.getModelo());
-        carroExistente.setNome(carro.getNome());
         carroExistente.setPreco(carro.getPreco());
 
 
@@ -37,7 +36,7 @@ public class CarroService {
     }
 
     public Carro buscarCarro(Long id) {
-        return carroRepository.findById(id).orElseThrow(()-> new CarroNaoEncontradoException(id));
+        return carroRepository.findById(id).orElseThrow(()-> new CarroException("Carro não encontrado"));
     }
 
     public List<Carro> listarCarros() {

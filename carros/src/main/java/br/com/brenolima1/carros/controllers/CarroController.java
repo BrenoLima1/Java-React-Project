@@ -3,12 +3,18 @@ package br.com.brenolima1.carros.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.brenolima1.carros.dtos.carro.CarroRequestDTO;
+import br.com.brenolima1.carros.dtos.carro.CarroResponseDTO;
+import br.com.brenolima1.carros.mapper.CarroMapper;
 import br.com.brenolima1.carros.models.Carro;
+import br.com.brenolima1.carros.models.Usuario;
 import br.com.brenolima1.carros.services.CarroService;
+import br.com.brenolima1.carros.services.UsuarioService;
 import jakarta.validation.Valid;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,20 +27,28 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/carros")
 public class CarroController {
     private final CarroService carroService;
+    private final UsuarioService usuarioService;
 
-    public CarroController(CarroService carroService) {
+    public CarroController(CarroService carroService, UsuarioService usuarioService) {
         this.carroService = carroService;
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping
-    public List<Carro> listarCarros() {
-        return carroService.listarCarros();
+    public ResponseEntity<List<CarroResponseDTO>> listarCarros() {
+        List<Carro> carros = carroService.listarCarros();
+        List<CarroResponseDTO> dtos = carros.stream()
+                .map(CarroMapper::toDTO)
+                .toList();
+        return ResponseEntity.ok(dtos);
     }    
 
     @PostMapping
-    public ResponseEntity<Carro> salvarCarro(@Valid @RequestBody Carro carro) {
+    public ResponseEntity<CarroResponseDTO> salvarCarro(@Valid @RequestBody CarroRequestDTO dto) {
+        Usuario dono = usuarioService.buscarUsuario(dto.getDonoId());
+        Carro carro = CarroMapper.toEntity(dto, dono);
         Carro novoCarro = carroService.salvarCarro(carro);
-        return ResponseEntity.ok(novoCarro);
+        return ResponseEntity.status(HttpStatus.CREATED).body(CarroMapper.toDTO(novoCarro));
     }
 
     @DeleteMapping("/{id}")
@@ -44,13 +58,17 @@ public class CarroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Carro> atualizarCarro(@PathVariable Long id, @Valid @RequestBody Carro carro) {
+    public ResponseEntity<CarroResponseDTO> atualizarCarro(@PathVariable Long id, @Valid @RequestBody CarroRequestDTO dto) {
+        Usuario dono = usuarioService.buscarUsuario(dto.getDonoId());
+        Carro carro = CarroMapper.toEntity(dto, dono);
         carro.setId(id);
-        return ResponseEntity.ok(carroService.atualizarCarro(carro));
+        Carro atualizado = carroService.atualizarCarro(carro);
+        return ResponseEntity.ok(CarroMapper.toDTO(atualizado));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Carro> buscarCarro(@PathVariable Long id) {
-        return ResponseEntity.ok(carroService.buscarCarro(id));
+    public ResponseEntity<CarroResponseDTO> buscarCarro(@PathVariable Long id) {
+        Carro carro = carroService.buscarCarro(id);
+        return ResponseEntity.ok(CarroMapper.toDTO(carro));
     }
 }
